@@ -1,0 +1,40 @@
+import numpy as np
+r=int(input("Enter the number of rows: "))
+c=int(input("Enter the number of columns: "))
+n=r*c
+a=[]
+print("Enter the elements: ")
+for i in range(n):
+    e=int(input())
+    a.append(e)
+a=np.array(a)
+matrix=a.reshape(r,c)
+
+def displayMatrix(matrix):
+    for row in matrix:
+        print('[', end='')
+        for cell in row:
+            print('{0:>7.2f}'.format(cell + 0), end=' ')
+        print(']')
+    print()
+
+def leadingOne(matrix, i):
+    if matrix[i][i] == 0:
+        return
+    matrix[i] = [cell / matrix[i][i] for cell in matrix[i]]
+def pivot(matrix, i):
+    for r, row in enumerate(matrix):
+        if r != i:
+            scale = -1 * row[i]
+            matrix[r] = [curr + scale * other for curr, other in zip(matrix[r], matrix[i])]
+def rref(matrix):
+    for i in range(len(matrix)):
+        leadingOne(matrix, i)
+        pivot(matrix, i)
+    return matrix
+m = matrix
+ 
+print('Original matrix:')
+print(matrix)
+print('RREF form:')
+displayMatrix(rref(m))
